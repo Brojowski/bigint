@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/alex/CLionProjects/bigint/bigint.cpp
+iostream
+-
+bigint.hpp
+/home/alex/CLionProjects/bigint/bigint.hpp
+
+/home/alex/CLionProjects/bigint/bigint.hpp
+ostream
+-
+intplace.h
+/home/alex/CLionProjects/bigint/intplace.h
+
+/home/alex/CLionProjects/bigint/intplace.cpp
+iostream
+-
+intplace.h
+/home/alex/CLionProjects/bigint/intplace.h
+
+/home/alex/CLionProjects/bigint/intplace.h
+
+/home/alex/CLionProjects/bigint/main.cpp
+iostream
+-
+bigint.hpp
+/home/alex/CLionProjects/bigint/bigint.hpp
+

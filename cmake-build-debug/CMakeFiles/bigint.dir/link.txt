@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/bigint.dir/main.cpp.o CMakeFiles/bigint.dir/bigint.cpp.o CMakeFiles/bigint.dir/intplace.cpp.o  -o bigint 
