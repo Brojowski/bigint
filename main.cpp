@@ -5,13 +5,16 @@ int main()
 {
     std::cout << "Hello, World!" << std::endl;
 
+    bigint i;
+    i.debugPrint(std::cout);
+
     bigint b = bigint(4865);
     b.debugPrint(std::cout);
 
     bigint c = bigint();
     b.debugPrint(std::cout);
 
-    bigint d = bigint("4865548655486554865548655486554865548655486554865548655;");
+    bigint d = bigint("4865548655486554865548655486554865548655486554865548655");
     d.debugPrint(std::cout);
     std::cout << d << std::endl;
 

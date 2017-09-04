@@ -3,5 +3,5 @@ project(bigint)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp bigint.cpp bigint.hpp intplace.cpp intplace.h)
+set(SOURCE_FILES bigint.cpp bigint.hpp test_c_str_ctor.cpp)
 add_executable(bigint ${SOURCE_FILES})

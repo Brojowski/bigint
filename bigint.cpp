@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include "bigint.hpp"
 
 // Magic Numbers
@@ -7,10 +8,8 @@
 
 char asciiToDigit(int);
 
-bigint::bigint()
+bigint::bigint() : bigint(0)
 {
-    head = lastReferencedPos = tail = new intplace(0);
-    length = 1;
 }
 
 bigint::bigint(const int initValue)
@@ -18,38 +17,37 @@ bigint::bigint(const int initValue)
     int i = initValue;
     head = lastReferencedPos = tail = new intplace(i % 10);
     length = 1;
-    do
+    while (i >= 10)
     {
         i /= 10;
         char digit = i % 10;
         addDigit(digit);
-    } while (i > 10);
+    }
 }
 
 bigint::bigint(const char *str)
 {
-    int letterIndex = 0;
-    char digit;
-    // Find out how long this string is.
-    while (str[letterIndex] != ';')
-    {
-        letterIndex++;
-    }
+    int numChars = std::strlen(str);
+    //int numChars = sizeof(str)/sizeof(char);
+    char digit = 0;
     // Last letter will be ';' start with the letter before that
-    head = lastReferencedPos = tail = new intplace(asciiToDigit(str[--letterIndex]));
+    head = lastReferencedPos = tail = new intplace(asciiToDigit(str[--numChars]));
     length = 1;
     // and loop forwards to the beginning of the number.
-    for (--letterIndex; letterIndex >= 0; letterIndex--)
+    for (--numChars; numChars >= 0; numChars--)
     {
-        digit = asciiToDigit(str[letterIndex]);
-        if (0 <= digit && digit <= 9 )
-        addDigit(digit);
+        digit = asciiToDigit(str[numChars]);
+        // Ignore invalid chars like line returns.
+        if (0 <= digit && digit <= 9)
+        {
+            addDigit(digit);
+        }
     }
 }
 
 bigint::bigint(const bigint &oldInt)
 {
-
+    // TODO: copy ctor.
 };
 
 char asciiToDigit(int c)
@@ -76,10 +74,10 @@ void bigint::debugPrint(std::ostream &out)
     out << std::endl;
 }
 
-std::ostream& operator<<(std::ostream& out, bigint& data)
+std::ostream &operator<<(std::ostream &out, bigint &data)
 {
     int lettersOnLine = 0;
-    intplace* digit;
+    intplace *digit;
     // Start at the highest digit and move down.
     for (digit = data.head; digit != nullptr; digit = digit->lower)
     {
@@ -90,13 +88,30 @@ std::ostream& operator<<(std::ostream& out, bigint& data)
             lettersOnLine = 0;
         }
         // Print digit
-        out << (int)digit->getDigit();
+        out << (int) digit->getDigit();
         lettersOnLine++;
     }
     return out;
 }
 
-bool bigint::operator==(bigint& other)
+bool bigint::operator==(const int other)
+{
+    bigint* big = new bigint(other);
+    // Use the == operator for two bigints.
+    bool result = *this == *big;
+    delete big;
+    return result;
+}
+
+bool bigint::operator==(const char *other)
+{
+    bigint* big = new bigint(other);
+    bool result = *this == *big;
+    delete big;
+    return result;
+}
+
+bool bigint::operator==(bigint &other)
 {
     // must be same # of digits
     if (length != other.length)
@@ -105,8 +120,8 @@ bool bigint::operator==(bigint& other)
     }
 
     // each digit should match
-    intplace* mePtr = tail;
-    intplace* otherPtr = other.tail;
+    intplace *mePtr = tail;
+    intplace *otherPtr = other.tail;
     bool areSame = true;
     while (areSame && mePtr != nullptr && otherPtr != nullptr)
     {
@@ -122,8 +137,8 @@ bool bigint::operator==(bigint& other)
 
 bigint::~bigint()
 {
-    intplace* ptr = head;
-    intplace* temp;
+    intplace *ptr = head;
+    intplace *temp;
     // Erase all of the digits for this number;
     while (ptr != nullptr)
     {
@@ -131,4 +146,30 @@ bigint::~bigint()
         delete ptr;
         ptr = temp;
     }
+}
+
+// intplace implementation
+intplace::intplace()
+{
+    setDigit(0);
+}
+
+intplace::intplace(char c)
+{
+    setDigit(c);
+}
+
+void intplace::setDigit(char c)
+{
+    if (c > 9 || c < 0)
+    {
+        std::cout << "Digit is invalid: " << (int)c << std::endl;
+        throw("Digit is invalid.");
+    }
+    value = c;
+}
+
+char intplace::getDigit()
+{
+    return value;
 }

@@ -2,7 +2,20 @@
 #define CS2_BIGINT_H
 
 #include <ostream>
-#include "intplace.h"
+
+class intplace
+{
+public:
+    intplace* higher = nullptr;
+    intplace* lower = nullptr;
+
+    intplace();
+    intplace(char);
+    void setDigit(char);
+    char getDigit();
+private:
+    char value;
+};
 
 class bigint
 {
@@ -15,6 +28,8 @@ public:
 
     void debugPrint(std::ostream&);
     friend std::ostream& operator<<(std::ostream&, bigint&);
+    bool operator==(int);
+    bool operator==(const char[]);
     bool operator==(bigint&);
 
     /* Part 2
@@ -31,9 +46,9 @@ public:
 
 private:
     int length;
-    intplace* head;
-    intplace* tail;
-    intplace* lastReferencedPos;
+    intplace* head = nullptr;
+    intplace* tail = nullptr;
+    intplace* lastReferencedPos = nullptr;
     int lastReference;
     void addDigit(char);
 };
