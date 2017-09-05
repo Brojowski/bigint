@@ -80,7 +80,7 @@ int main () {
         std::cout << "62345 == ";
         std::cout << *bi;
         std::cout << std::endl;
-
+        delete bi;
 
     }
 

@@ -100,6 +100,7 @@ int main () {
         // Verify
         assert(*bi == 456789);
         std::cout << "456789 == " << *bi << std::endl;
+        delete bi;
     }
     
     std::cout << "Done testing constructor bigint(int)." << std::endl;
